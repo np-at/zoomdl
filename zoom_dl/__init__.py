@@ -6,6 +6,7 @@ import jwt
 from dateutil.parser import parse
 import json
 from dotenv import load_dotenv
+from argparse import ArgumentParser
 
 API_ENDPOINT_USER_LIST = 'https://api.zoom.us/v1/user/list'
 API2_ENDPOINT_USER_LIST = 'https://api.zoom.us/v2/users'
@@ -16,12 +17,24 @@ API2_ENDPOINT_RECORDING_LIST2 = '/recordings'
 DOWNLOAD_DIRECTORY = 'downloads'
 COMPLETED_MEETING_IDS_LOG = 'completed_downloads.txt'
 COMPLETED_MEETING_IDS = set()
+
 session_stor = requests.session()
+
+API_KEY: str
+API_SECRET: str
+
+
+def create_arg_parser():
+    parser = ArgumentParser()
+    parser.add_argument('-k',
+                        '--key',
+                        help='api key for zoom',
+                        type=str
+                        )
 
 
 def get_config_vars():
     global API_KEY, API_SECRET
-    home_config = os
     load_dotenv()
     try:
         if z_key := os.environ['zoom_api_key']:
